@@ -1,0 +1,31 @@
+{
+  "name": "stilltime",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Stilltime — an opt-in digital wellbeing Chrome extension with a Node.js + MongoDB sync backend.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "workspaces": [
+    "packages/shared",
+    "apps/backend",
+    "apps/extension"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "build:shared": "npm run build -w @stilltime/shared",
+    "dev:backend": "npm run dev -w @stilltime/backend",
+    "dev:extension": "npm run dev -w @stilltime/extension",
+    "db:memory": "npm run db:memory -w @stilltime/backend",
+    "typecheck": "npm run typecheck --workspaces",
+    "test": "npm run test --workspaces",
+    "test:e2e": "npm run build && npm run test:e2e -w @stilltime/extension",
+    "verify": "npm run typecheck && npm test && npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  }
+}

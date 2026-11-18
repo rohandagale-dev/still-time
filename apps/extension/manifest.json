@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Stilltime — Digital Wellbeing",
+  "short_name": "Stilltime",
+  "description": "See where your time goes on the websites you choose. Opt-in, private, domain-level tracking.",
+  "version": "0.0.0",
+  "minimum_chrome_version": "120",
+  "incognito": "not_allowed",
+  "action": {
+    "default_title": "Stilltime",
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": ["tabs", "storage", "idle", "alarms"],
+  "host_permissions": [],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}

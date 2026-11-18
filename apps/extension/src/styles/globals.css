@@ -1,0 +1,255 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Typeface — Inter (variable, Latin subset only, bundled; never fetched remotely)
+   ────────────────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: "Inter Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/inter/files/inter-latin-wght-normal.woff2") format("woff2-variations");
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Design tokens. Components only ever use these (Tailwind's default palette
+   is disabled below), so light/dark switch by swapping variables.
+   ────────────────────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: light;
+
+  --st-bg: #f7f7f8;
+  --st-surface: #ffffff;
+  --st-surface-muted: #f2f2f4;
+  --st-surface-hover: #f5f5f7;
+  --st-border: #e8e8ec;
+  --st-border-strong: #d8d8de;
+
+  --st-fg: #18181d;
+  --st-fg-muted: #5f5f6b;
+  --st-fg-subtle: #9a9aa5;
+
+  --st-accent: #5b5bd6;
+  --st-accent-hover: #4f4fc8;
+  --st-accent-fg: #ffffff;
+  --st-accent-soft: #eeeefc;
+  --st-accent-soft-fg: #4646b5;
+
+  --st-success: #18935b;
+  --st-success-soft: #e6f5ed;
+  --st-warning: #b06c00;
+  --st-warning-soft: #fcf1df;
+  --st-danger: #cf3434;
+  --st-danger-hover: #b92b2b;
+  --st-danger-soft: #fceceb;
+
+  --st-ring: color-mix(in srgb, var(--st-accent) 40%, transparent);
+
+  /* Charts — emphasis form: today in the accent, context days in a gray stepped to ≥3:1
+     against the surface (validated with the dataviz palette validator). */
+  --st-chart-emphasis: var(--st-accent);
+  --st-chart-context: #8e8e9a;
+  --st-chart-grid: #eeeef1;
+  --st-chart-axis: #d8d8de;
+
+  --st-shadow-xs: 0 1px 1px rgb(16 16 24 / 0.04);
+  --st-shadow-sm: 0 1px 2px rgb(16 16 24 / 0.05), 0 1px 1px rgb(16 16 24 / 0.03);
+  --st-shadow-md: 0 8px 24px -8px rgb(16 16 24 / 0.12), 0 2px 6px -2px rgb(16 16 24 / 0.06);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --st-bg: #0d0d10;
+  --st-surface: #16161a;
+  --st-surface-muted: #1d1d22;
+  --st-surface-hover: #1b1b20;
+  --st-border: #26262d;
+  --st-border-strong: #33333b;
+
+  --st-fg: #ececf0;
+  --st-fg-muted: #a1a1ac;
+  --st-fg-subtle: #6c6c77;
+
+  --st-accent: #7b7bef;
+  --st-accent-hover: #8d8df3;
+  --st-accent-fg: #0d0d10;
+  --st-accent-soft: rgb(123 123 239 / 0.14);
+  --st-accent-soft-fg: #a9a9f7;
+
+  --st-success: #38c682;
+  --st-success-soft: rgb(56 198 130 / 0.13);
+  --st-warning: #e2a33b;
+  --st-warning-soft: rgb(226 163 59 / 0.13);
+  --st-danger: #f06b6b;
+  --st-danger-hover: #f48585;
+  --st-danger-soft: rgb(240 107 107 / 0.13);
+
+  --st-chart-context: #62626e;
+  --st-chart-grid: #222228;
+  --st-chart-axis: #35353d;
+
+  --st-shadow-xs: 0 1px 1px rgb(0 0 0 / 0.3);
+  --st-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --st-shadow-md: 0 10px 28px -10px rgb(0 0 0 / 0.7), 0 2px 8px -2px rgb(0 0 0 / 0.5);
+}
+
+@theme {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* A compact type scale tuned for a 380px popup. */
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.05rem;
+  --text-sm: 0.8125rem;
+  --text-sm--line-height: 1.2rem;
+  --text-base: 0.875rem;
+  --text-base--line-height: 1.3rem;
+  --text-lg: 1rem;
+  --text-lg--line-height: 1.4rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.6rem;
+  --text-2xl: 1.875rem;
+  --text-2xl--line-height: 2.1rem;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-fade-in: fade-in 160ms var(--ease-out-soft) both;
+  --animate-rise-in: rise-in 220ms var(--ease-out-soft) both;
+  --animate-slide-in: slide-in 240ms var(--ease-out-soft) both;
+  --animate-slide-back: slide-back 240ms var(--ease-out-soft) both;
+  --animate-shimmer: shimmer 1.4s ease-in-out infinite;
+  --animate-live: live-pulse 2s ease-out infinite;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slide-in {
+    from { opacity: 0; transform: translateX(14px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slide-back {
+    from { opacity: 0; transform: translateX(-14px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes shimmer {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 1; }
+  }
+  @keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--st-success) 45%, transparent); }
+    70%, 100% { box-shadow: 0 0 0 5px transparent; }
+  }
+}
+
+@theme inline {
+  --color-bg: var(--st-bg);
+  --color-surface: var(--st-surface);
+  --color-surface-muted: var(--st-surface-muted);
+  --color-surface-hover: var(--st-surface-hover);
+  --color-border: var(--st-border);
+  --color-border-strong: var(--st-border-strong);
+  --color-fg: var(--st-fg);
+  --color-fg-muted: var(--st-fg-muted);
+  --color-fg-subtle: var(--st-fg-subtle);
+  --color-accent: var(--st-accent);
+  --color-accent-hover: var(--st-accent-hover);
+  --color-accent-fg: var(--st-accent-fg);
+  --color-accent-soft: var(--st-accent-soft);
+  --color-accent-soft-fg: var(--st-accent-soft-fg);
+  --color-success: var(--st-success);
+  --color-success-soft: var(--st-success-soft);
+  --color-warning: var(--st-warning);
+  --color-warning-soft: var(--st-warning-soft);
+  --color-danger: var(--st-danger);
+  --color-danger-hover: var(--st-danger-hover);
+  --color-danger-soft: var(--st-danger-soft);
+  --color-ring: var(--st-ring);
+  --color-chart-emphasis: var(--st-chart-emphasis);
+  --color-chart-context: var(--st-chart-context);
+  --color-chart-grid: var(--st-chart-grid);
+  --color-chart-axis: var(--st-chart-axis);
+
+  --shadow-xs: var(--st-shadow-xs);
+  --shadow-sm: var(--st-shadow-sm);
+  --shadow-md: var(--st-shadow-md);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Base
+   ────────────────────────────────────────────────────────────────────────── */
+@layer base {
+  html,
+  body {
+    margin: 0;
+    background: var(--st-bg);
+  }
+
+  #root {
+    height: 100%;
+  }
+
+  ::selection {
+    background: var(--st-accent-soft);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--st-ring);
+    outline-offset: 2px;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  /* Slim, unobtrusive scrollbars inside the popup. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--st-border-strong) transparent;
+  }
+}
+
+/*
+ * Chrome injects its own (unlayered) font stylesheet into extension pages, and unlayered rules
+ * always beat rules inside @layer. Keep body typography unlayered and slightly more specific.
+ */
+:root body {
+  /* Chrome sizes the action popup to the body (max 800×600). */
+  width: 380px;
+  height: 580px;
+  overflow: hidden;
+  color: var(--st-fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-feature-settings: "cv11", "ss03";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}

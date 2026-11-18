@@ -1,0 +1,25 @@
+{
+  "name": "@stilltime/shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Types, constants and domain normalization shared by the Stilltime extension and backend.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc -b && tsc -p tsconfig.test.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "tldts": "^7.5.4"
+  }
+}
